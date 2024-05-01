@@ -4,5 +4,6 @@
     {
         Task SaveStreamAsync(string userPhone, Stream stream);
         Task<Stream> GetStreamAsync(string userPhone);
+        Task SaveStreamAsyncImporved(string userPhone, Stream stream);
     }
 }

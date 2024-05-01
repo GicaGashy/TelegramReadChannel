@@ -26,7 +26,7 @@ namespace PintrastAPI.Services.Telegram
                     case "phone_number": return request.PhoneNumber;
                     case "verification_code": return request.VerificationCode;
                     case "password": return request.Password;
-                    // case "session_key": return _streamStorage.GetStreamAsync(request.PhoneNumber).ToString();
+                    case "session_key": return _streamStorage.GetStreamAsync(request.PhoneNumber).ToString();
                     default: return null;
                 }
             }
@@ -43,7 +43,7 @@ namespace PintrastAPI.Services.Telegram
             }
             await client.LoginUserIfNeeded();
 
-            await _streamStorage.SaveStreamAsync(request.PhoneNumber, sessionStore);
+            await _streamStorage.SaveStreamAsyncImporved(request.PhoneNumber, sessionStore);
             // Resolve channel username
             var resolvedPeer = await client.Contacts_ResolveUsername(NormalizeChannelUsername(request.ChannelUsername));
             var channel = resolvedPeer.chats[resolvedPeer.peer.ID] as Channel;

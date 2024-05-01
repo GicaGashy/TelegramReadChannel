@@ -14,6 +14,19 @@ namespace PintrastAPI.Services.StreamStoring
             _streams[userPhone] = memoryStream.ToArray();
         }
 
+        public async Task SaveStreamAsyncImporved(string userPhone, Stream stream)
+        {
+            // Ensure the stream is at the beginning before copying
+            if (stream.CanSeek) stream.Seek(0, SeekOrigin.Begin);
+
+            var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+
+            // Safely update or add the byte array in the dictionary
+            var byteArray = memoryStream.ToArray();
+            _streams.AddOrUpdate(userPhone, byteArray, (key, existingVal) => byteArray);
+        }
+
         public Task<Stream> GetStreamAsync(string userPhone)
         {
             if (_streams.TryGetValue(userPhone, out var buffer))
